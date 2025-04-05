@@ -9,17 +9,10 @@ def load_data_to_db(dataframe, table_name, db_config_path='config/db_config.json
     # Extract the endpoint ID from the host
     endpoint_id = config['host'].split('.')[0]
 
-    # Create a database connection with the endpoint ID
-    url="{config['db_type']}://{config['user']}:endpoint%3D{endpoint_id};{config['password']}@{config['host']}:{config['port']}/{config['database']}?sslmode=require"
-    print(f"Connecting to database with URL: {url}")
     # Create the database engine
     engine = create_engine(
-        f"{config['db_type']}://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['database']}",
-        connect_args={
-            'sslmode': 'require',
-            'endpoint': endpoint_id
-            
-        }
+        f"postgresql+psycopg2://{config['user']}:endpoint={endpoint_id};{config['password']}@{config['host']}:{config['port']}/{config['database']}?"
+        f"sslmode=require"
     )
 
     # Load the DataFrame to the specified table
