@@ -5,8 +5,7 @@
   "host": "ep-lucky-dawn-a5r4hd6b-pooler.us-east-2.aws.neon.tech",
   "port": 5432,
   "openweathermap_api_key": "4fa279b416353fbedc6df5bcc790b6f0",
-  "city": "London",
-  "endpoint_id": "ep-lucky-dawn-a5r4hd6b-pooler",
+  "city": "New York",
   "mongodb_uri": "mongodb+srv://etl_user:5nkOG4HtzebFgFF7@bdacluster.u69rd.mongodb.net/?retryWrites=true&w=majority&appName=BDACluster",
   "database": "etl_db"
 }

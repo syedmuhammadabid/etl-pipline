@@ -36,7 +36,13 @@ def extract_data():
     csv_data = read_csv('data/sample_data.csv')
     weather_data_file = read_json('data/sample_weather.json')
     google_sheet_data = read_csv('data/google_sheet_sample.csv')
-    
+
+    print("Data extraction complete.")
+    print("CSV Data:", csv_data.head())
+    print("Weather Data from File:", weather_data_file)
+    print("Google Sheet Data:", google_sheet_data.head())
+    print("Weather Data from API:", weather_data_api)
+
     return csv_data, weather_data_file, google_sheet_data, weather_data_api
 
 def clean_data(csv_data, weather_data_file, google_sheet_data, weather_data_api):
@@ -60,7 +66,9 @@ def clean_data(csv_data, weather_data_file, google_sheet_data, weather_data_api)
     
     # Example of correcting erroneous values
     combined_data['temperature'] = combined_data['temperature'].apply(lambda x: (x - 32) * 5.0/9.0 if x > 50 else x)  # Fahrenheit to Celsius if needed
-    
+
+    print("Data cleaning complete.", combined_data.head())
+
     return combined_data
 
 def transform_data(cleaned_data):
@@ -70,6 +78,8 @@ def transform_data(cleaned_data):
     # Feature engineering: Create a weather impact score
     cleaned_data['weather_impact_score'] = (cleaned_data['temperature'] + cleaned_data['humidity'] + cleaned_data['wind_speed']) / 3
     
+    print("Data transformation complete.", cleaned_data.head())
+
     return cleaned_data
 
 def load_data_to_db(cleaned_data):
@@ -81,8 +91,8 @@ def load_data_to_db(cleaned_data):
 
     # Create the connection string with the endpoint ID
     connection_string = (
-        f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}?"
-        f"sslmode=require&options=-c endpoint={endpoint_id}"
+        f"postgresql+psycopg2://{db_config['user']}:endpoint={endpoint_id};{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}?"
+        f"sslmode=require"
     )
 
     # Create the SQLAlchemy engine
