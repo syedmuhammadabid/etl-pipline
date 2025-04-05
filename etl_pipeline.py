@@ -15,7 +15,7 @@ def fetch_weather_data_from_api(api_key, city):
     """
     Fetch weather data from OpenWeatherMap API.
     """
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
@@ -75,9 +75,22 @@ def transform_data(cleaned_data):
 def load_data_to_db(cleaned_data):
     with open('config/db_config.json') as config_file:
         db_config = json.load(config_file)
-    
-    engine = create_engine(f"{db_config['db_type']}://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}")
+
+    # Extract the endpoint ID from the host
+    endpoint_id = db_config['host'].split('.')[0]
+
+    # Create the connection string with the endpoint ID
+    connection_string = (
+        f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}?"
+        f"sslmode=require&options=-c endpoint={endpoint_id}"
+    )
+
+    # Create the SQLAlchemy engine
+    engine = create_engine(connection_string)
+
+    # Load the DataFrame to the specified table
     cleaned_data.to_sql('final_table', con=engine, if_exists='replace', index=False)
+    print("Data loaded to PostgreSQL successfully.")
 
 def main():
     csv_data, weather_data_file, google_sheet_data, weather_data_api = extract_data()
