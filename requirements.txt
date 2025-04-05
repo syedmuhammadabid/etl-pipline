@@ -1,0 +1,8 @@
+numpy
+pandas
+requests
+sqlalchemy
+schedule
+pytest
+pydantic
+python-dotenv
