@@ -1,0 +1,54 @@
+{
+  "weather_data": [
+    {
+      "city": "New York",
+      "temperature": {
+        "value": 75,
+        "unit": "F"
+      },
+      "humidity": 60,
+      "wind_speed": 10,
+      "timestamp": "2023-10-01T14:00:00Z"
+    },
+    {
+      "city": "Los Angeles",
+      "temperature": {
+        "value": 85,
+        "unit": "F"
+      },
+      "humidity": 50,
+      "wind_speed": 5,
+      "timestamp": "2023-10-01T14:00:00Z"
+    },
+    {
+      "city": "Chicago",
+      "temperature": {
+        "value": 70,
+        "unit": "F"
+      },
+      "humidity": 65,
+      "wind_speed": 15,
+      "timestamp": "2023-10-01T14:00:00Z"
+    },
+    {
+      "city": "Houston",
+      "temperature": {
+        "value": 90,
+        "unit": "F"
+      },
+      "humidity": 70,
+      "wind_speed": 8,
+      "timestamp": "2023-10-01T14:00:00Z"
+    },
+    {
+      "city": "Miami",
+      "temperature": {
+        "value": 88,
+        "unit": "F"
+      },
+      "humidity": 80,
+      "wind_speed": 12,
+      "timestamp": "2023-10-01T14:00:00Z"
+    }
+  ]
+}

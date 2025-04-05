@@ -1,0 +1,10 @@
+{
+  "db_type": "postgresql",
+  "user": "your_username",
+  "password": "your_password",
+  "host": "localhost",
+  "port": 5432,
+  "database": "your_database",
+  "openweathermap_api_key": "4fa279b416353fbedc6df5bcc790b6f0",
+  "city": "London"
+}
