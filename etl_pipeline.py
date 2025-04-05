@@ -47,8 +47,12 @@ def extract_data():
 
 def clean_data(csv_data, weather_data_file, google_sheet_data, weather_data_api):
     # Combine datasets
+    print("1- Data cleaning complete.", csv_data.head())
+    
     combined_data = pd.concat([csv_data, google_sheet_data], ignore_index=True)
     
+    print("2- Data cleaning complete.", combined_data.head())
+
     # Add weather data from API
     weather_api_df = pd.DataFrame([{
         'temperature': weather_data_api['main']['temp'],
@@ -58,16 +62,22 @@ def clean_data(csv_data, weather_data_file, google_sheet_data, weather_data_api)
     }])
     combined_data = pd.concat([combined_data, weather_api_df], ignore_index=True)
 
+    print("3- Data cleaning complete.", combined_data.head())
+
     # Handle missing values
-    combined_data.dropna(inplace=True)
+    combined_data.dropna(subset=['temperature', 'humidity', 'wind_speed'], inplace=True)
     
+    print("4- Data cleaning complete.", combined_data.head())
+
     # Remove duplicates
     combined_data.drop_duplicates(inplace=True)
+
+    print("5- Data cleaning complete.", combined_data.head())
     
     # Example of correcting erroneous values
     combined_data['temperature'] = combined_data['temperature'].apply(lambda x: (x - 32) * 5.0/9.0 if x > 50 else x)  # Fahrenheit to Celsius if needed
 
-    print("Data cleaning complete.", combined_data.head())
+    print("6- Data cleaning complete.", combined_data.head())
 
     return combined_data
 
@@ -105,6 +115,7 @@ def load_data_to_db(cleaned_data):
 def main():
     csv_data, weather_data_file, google_sheet_data, weather_data_api = extract_data()
     cleaned_data = clean_data(csv_data, weather_data_file, google_sheet_data, weather_data_api)
+    print("Cleaned Data:", cleaned_data.head())
     transformed_data = transform_data(cleaned_data)
     load_data_to_db(transformed_data)
 
