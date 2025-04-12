@@ -64,20 +64,25 @@ def clean_data(csv_data, weather_data_file, google_sheet_data, weather_data_api)
 
     print("3- Data cleaning complete.", combined_data.head())
 
+    # Add weather data from file
+    # combined_data = pd.concat([combined_data, weather_data_file], ignore_index=True)
+    
+    # print("4- Data cleaning complete.", combined_data.head())
+
     # Handle missing values
     combined_data.dropna(subset=['temperature', 'humidity', 'wind_speed'], inplace=True)
     
-    print("4- Data cleaning complete.", combined_data.head())
+    print("5- Data cleaning complete.", combined_data.head())
 
     # Remove duplicates
     combined_data.drop_duplicates(inplace=True)
 
-    print("5- Data cleaning complete.", combined_data.head())
+    print("6- Data cleaning complete.", combined_data.head())
     
     # Example of correcting erroneous values
     combined_data['temperature'] = combined_data['temperature'].apply(lambda x: (x - 32) * 5.0/9.0 if x > 50 else x)  # Fahrenheit to Celsius if needed
 
-    print("6- Data cleaning complete.", combined_data.head())
+    print("7- Data cleaning complete.", combined_data.head())
 
     return combined_data
 
