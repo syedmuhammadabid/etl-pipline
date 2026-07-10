@@ -1,17 +1,23 @@
+import os
 from sqlalchemy import create_engine
 import pandas as pd
-import json
+from dotenv import load_dotenv
 
-def load_data_to_db(dataframe, table_name, db_config_path='config/db_config.json'):
-    with open(db_config_path) as config_file:
-        config = json.load(config_file)
+load_dotenv()
+
+def load_data_to_db(dataframe, table_name):
+    host = os.environ['DB_HOST']
+    user = os.environ['DB_USER']
+    password = os.environ['DB_PASSWORD']
+    port = os.environ.get('DB_PORT', '5432')
+    database = os.environ['DB_NAME']
 
     # Extract the endpoint ID from the host
-    endpoint_id = config['host'].split('.')[0]
+    endpoint_id = host.split('.')[0]
 
     # Create the database engine
     engine = create_engine(
-        f"postgresql+psycopg2://{config['user']}:endpoint={endpoint_id};{config['password']}@{config['host']}:{config['port']}/{config['database']}?"
+        f"postgresql+psycopg2://{user}:endpoint={endpoint_id};{password}@{host}:{port}/{database}?"
         f"sslmode=require"
     )
 

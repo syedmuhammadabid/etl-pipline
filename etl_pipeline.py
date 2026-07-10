@@ -1,8 +1,12 @@
+import os
 import pandas as pd
 import json
 import requests
 from sqlalchemy import create_engine
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def read_csv(file_path):
     return pd.read_csv(file_path)
@@ -23,11 +27,9 @@ def fetch_weather_data_from_api(api_key, city):
         raise Exception(f"Failed to fetch data from OpenWeatherMap API. Status code: {response.status_code}")
 
 def extract_data():
-    # Load API key and city from config
-    with open('config/db_config.json') as config_file:
-        config = json.load(config_file)
-    api_key = config['openweathermap_api_key']
-    city = config['city']
+    # Load API key and city from environment variables
+    api_key = os.environ['OPENWEATHERMAP_API_KEY']
+    city = os.environ.get('CITY', 'New York')
 
     # Fetch data from OpenWeatherMap API
     weather_data_api = fetch_weather_data_from_api(api_key, city)
@@ -98,15 +100,18 @@ def transform_data(cleaned_data):
     return cleaned_data
 
 def load_data_to_db(cleaned_data):
-    with open('config/db_config.json') as config_file:
-        db_config = json.load(config_file)
+    host = os.environ['DB_HOST']
+    user = os.environ['DB_USER']
+    password = os.environ['DB_PASSWORD']
+    port = os.environ.get('DB_PORT', '5432')
+    database = os.environ['DB_NAME']
 
     # Extract the endpoint ID from the host
-    endpoint_id = db_config['host'].split('.')[0]
+    endpoint_id = host.split('.')[0]
 
     # Create the connection string with the endpoint ID
     connection_string = (
-        f"postgresql+psycopg2://{db_config['user']}:endpoint={endpoint_id};{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}?"
+        f"postgresql+psycopg2://{user}:endpoint={endpoint_id};{password}@{host}:{port}/{database}?"
         f"sslmode=require"
     )
 

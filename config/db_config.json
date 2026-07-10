@@ -1,0 +1,10 @@
+{
+  "db_type": "postgresql",
+  "user": "${DB_USER}",
+  "password": "${DB_PASSWORD}",
+  "host": "${DB_HOST}",
+  "port": 5432,
+  "openweathermap_api_key": "${OPENWEATHERMAP_API_KEY}",
+  "city": "New York",
+  "database": "${DB_NAME}"
+}
