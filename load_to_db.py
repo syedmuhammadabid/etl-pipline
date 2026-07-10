@@ -17,8 +17,8 @@ def load_data_to_db(dataframe, table_name):
 
     # Create the database engine
     engine = create_engine(
-        f"postgresql+psycopg2://{user}:endpoint={endpoint_id};{password}@{host}:{port}/{database}?"
-        f"sslmode=require"
+        f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}?"
+        f"sslmode=require&options=endpoint%3D{endpoint_id}"
     )
 
     # Load the DataFrame to the specified table

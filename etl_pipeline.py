@@ -109,10 +109,10 @@ def load_data_to_db(cleaned_data):
     # Extract the endpoint ID from the host
     endpoint_id = host.split('.')[0]
 
-    # Create the connection string with the endpoint ID
+    # Create the connection string with endpoint option for Neon
     connection_string = (
-        f"postgresql+psycopg2://{user}:endpoint={endpoint_id};{password}@{host}:{port}/{database}?"
-        f"sslmode=require"
+        f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}?"
+        f"sslmode=require&options=endpoint%3D{endpoint_id}"
     )
 
     # Create the SQLAlchemy engine
